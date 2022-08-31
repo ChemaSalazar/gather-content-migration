@@ -84,6 +84,9 @@ class cgAPI(GatherContent):
     def get_single_file_query(self, file_id):
         return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/files/' + str(file_id)
 
+    def get_folders_query(self):
+        return 'https://api.gathercontent.com/projects/'+str(self.project_id)+'/folders'
+
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
 
@@ -98,6 +101,9 @@ class cgAPI(GatherContent):
 
     def api_get_single_file(self, file_id=credentials.mock_file_id):
         return requests.get(self.get_single_file_query(file_id), headers=self.header).text
+
+    def api_get_folders(self):
+        return requests.get(self.get_folders_query(), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
         x = requests.get(desired_query, headers=self.header)
