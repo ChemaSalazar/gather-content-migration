@@ -11,6 +11,7 @@ class GatherContent(object):
     authorization_token = ''
     header = {}
     project_id = 0
+    template_id = 0
 
     def __init__(self):
         self.set_email(credentials.MYEMAIL)
@@ -18,6 +19,7 @@ class GatherContent(object):
         self.set_authorization_token(credentials.authorization_token)
         self.set_mime()
         self.set_project()
+        self.set_template()
         self.set_header()
 
     def get_api_key(self):
@@ -37,6 +39,12 @@ class GatherContent(object):
 
     def get_project(self):
         return self.project_id
+
+    def get_template(self):
+        return self.template_id
+
+    def set_template(self, template=credentials.template_id):
+        self.template_id = template
 
     def set_project(self, project=credentials.project_id):
         self.project_id = project
@@ -62,10 +70,16 @@ class GatherContent(object):
 
 class GC_API(GatherContent):
     def get_template_query(self):
-        return 'https://api.gathercontent.com/templates/' + str(self.project_id)
+        return 'https://api.gathercontent.com/templates/' + str(self.template_id)
+
+    def get_items_query(self):
+        return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/items'
 
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
+
+    def api_get_items(self):
+        return requests.get(self.get_items_query(), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
         x = requests.get(desired_query, headers=self.header)

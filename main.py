@@ -12,5 +12,7 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 
 print_hi('Welcome to main.')
+gather_content = gc.GC_API()
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
