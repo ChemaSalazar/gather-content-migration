@@ -32,18 +32,21 @@ class MyTestCase(unittest.TestCase):
 
         # Subclass testing
 
-        sub_test = gc.GC_API()
+        sub_test = gc.cgAPI()
         sub_test.get_template_query()
         sub_test.get_template()
         sub_test.api_get_template()
+        sub_test.api_get_single_item()
         sub_test.get_items_query()
         sub_test.api_get_items()
 
         # API test
-        test_obj = gc.GC_API()
+        test_obj = gc.cgAPI()
         test_obj.set_project(credentials.project_id)
         test_obj.api_get_status_res(test_obj.get_template_query())
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_template_query()), 200)
-        self.assertEqual(sub_test.api_get_status_res(sub_test.get_items_query()), 200)
+        self.assertEqual(test_obj.api_get_status_res(test_obj.get_items_query()), 200)
+        self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_item_query(credentials.mock_item_id)), 200)
+
 
 # if __name__ == '__main__':

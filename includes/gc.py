@@ -68,18 +68,24 @@ class GatherContent(object):
         }
 
 
-class GC_API(GatherContent):
+class cgAPI(GatherContent):
     def get_template_query(self):
         return 'https://api.gathercontent.com/templates/' + str(self.template_id)
 
     def get_items_query(self):
         return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/items'
 
+    def get_single_item_query(self, item_id):
+        return 'https://api.gathercontent.com/items/' + str(item_id)
+
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
 
     def api_get_items(self):
         return requests.get(self.get_items_query(), headers=self.header).text
+
+    def api_get_single_item(self, item_id=credentials.mock_item_id):
+        return requests.get(self.get_single_item_query(item_id), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
         x = requests.get(desired_query, headers=self.header)
