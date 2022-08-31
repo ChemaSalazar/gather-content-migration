@@ -37,8 +37,11 @@ class MyTestCase(unittest.TestCase):
         sub_test.get_template()
         sub_test.api_get_template()
         sub_test.api_get_single_item()
+        sub_test.api_get_single_file()
         sub_test.get_items_query()
         sub_test.api_get_items()
+        sub_test.get_files_query()
+        sub_test.api_get_files()
 
         # API test
         test_obj = gc.cgAPI()
@@ -47,6 +50,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_template_query()), 200)
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_items_query()), 200)
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_item_query(credentials.mock_item_id)), 200)
+        self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_file_query(credentials.mock_file_id)), 200)
 
 
 # if __name__ == '__main__':
