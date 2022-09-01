@@ -69,6 +69,8 @@ class GatherContent(object):
 
 
 class cgAPI(GatherContent):
+
+    # QUERY Builders
     def get_template_query(self):
         return config.gc_url + 'templates/' + str(self.template_id)
 
@@ -87,6 +89,14 @@ class cgAPI(GatherContent):
     def get_folders_query(self):
         return config.gc_url + 'projects/' + str(self.project_id) + '/folders'
 
+    def get_components_query(self):
+        return config.gc_url + 'projects/' + str(self.project_id) + '/components'
+
+    def get_single_component_query(self, component_id):
+        return config.gc_url + 'components/' + str(component_id)
+
+    # API GET Methods
+
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
 
@@ -104,6 +114,12 @@ class cgAPI(GatherContent):
 
     def api_get_folders(self):
         return requests.get(self.get_folders_query(), headers=self.header).text
+
+    def api_get_components(self):
+        return requests.get(self.get_components_query(), headers=self.header).text
+
+    def api_get_single_component(self, component_id=credentials.mock_component_id):
+        return requests.get(self.get_single_component_query(component_id), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
         x = requests.get(desired_query, headers=self.header)
