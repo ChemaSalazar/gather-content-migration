@@ -70,22 +70,22 @@ class GatherContent(object):
 
 class cgAPI(GatherContent):
     def get_template_query(self):
-        return config.gc_url+'templates/'+str(self.template_id)
+        return config.gc_url + 'templates/' + str(self.template_id)
 
     def get_items_query(self):
-        return config.gc_url+'projects/'+str(self.project_id)+'/items'
+        return config.gc_url + 'projects/' + str(self.project_id) + '/items'
 
     def get_single_item_query(self, item_id):
-        return config.gc_url+'items/'+str(item_id)
+        return config.gc_url + 'items/' + str(item_id)
 
     def get_files_query(self):
-        return config.gc_url+'projects/' + str(self.project_id)+'/files'
+        return config.gc_url + 'projects/' + str(self.project_id) + '/files'
 
     def get_single_file_query(self, file_id):
-        return config.gc_url+'projects/' + str(self.project_id)+'/files/'+str(file_id)
+        return config.gc_url + 'projects/' + str(self.project_id) + '/files/' + str(file_id)
 
     def get_folders_query(self):
-        return config.gc_url+'projects/'+str(self.project_id)+'/folders'
+        return config.gc_url + 'projects/' + str(self.project_id) + '/folders'
 
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
@@ -108,3 +108,16 @@ class cgAPI(GatherContent):
     def api_get_status_res(self, desired_query):
         x = requests.get(desired_query, headers=self.header)
         return x.status_code
+
+
+# Static methods
+def is_field_type_text(field):
+    if field == config.field_type[0]:
+        return True
+    return False
+
+
+def is_field_type_choice_checkbox(field):
+    if field == config.field_type[1]:
+        return True
+    return False

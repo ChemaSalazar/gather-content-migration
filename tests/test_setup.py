@@ -55,5 +55,10 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_item_query(credentials.mock_item_id)), 200)
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_file_query(credentials.mock_file_id)), 200)
 
+        # Static Methods
+        gc.is_field_type_text(config.field_type[0])
+        gc.is_field_type_text(config.field_type[1])
+        gc.is_field_type_choice_checkbox(config.field_type[1])
+        gc.is_field_type_choice_checkbox(config.field_type[0])
 
 # if __name__ == '__main__':

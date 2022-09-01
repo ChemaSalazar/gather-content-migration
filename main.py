@@ -1,5 +1,6 @@
 # This is a sample Python script.
 from includes import gc
+from includes import config
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -13,7 +14,6 @@ def print_hi(name):
 
 print_hi('Welcome to main.')
 gather_content = gc.cgAPI()
-
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
