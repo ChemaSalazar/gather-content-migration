@@ -1,6 +1,7 @@
 from private import credentials
 from includes import config
 import requests
+import json
 
 
 # Gathercontent class & definitions
@@ -74,8 +75,8 @@ class cgAPI(GatherContent):
     def get_template_query(self):
         return config.gc_url + 'templates/' + str(self.template_id)
 
-    def get_items_query(self):
-        return config.gc_url + 'projects/' + str(self.project_id) + '/items'
+    def get_items_query(self, params=''):
+        return config.gc_url + 'projects/' + str(self.project_id) + '/items' + params
 
     def get_single_item_query(self, item_id):
         return config.gc_url + 'items/' + str(item_id)
@@ -100,8 +101,8 @@ class cgAPI(GatherContent):
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
 
-    def api_get_items(self):
-        return requests.get(self.get_items_query(), headers=self.header).text
+    def api_get_items(self, params=''):
+        return requests.get(self.get_items_query(params), headers=self.header).text
 
     def api_get_single_item(self, item_id=credentials.mock_item_id):
         return requests.get(self.get_single_item_query(item_id), headers=self.header).text
@@ -137,3 +138,17 @@ def is_field_type_choice_checkbox(field):
     if field == config.field_type[1]:
         return True
     return False
+
+
+# write to file
+def write_to_file(file_path, response, mode="w"):
+    if mode == "r+":
+        with open(file_path, "r+") as file:
+            file_data = json.load(file)
+            file_data["data"].append(response["data"])
+            file.seek(0)
+            json.dump(file_data, file, indent=4)
+    else:
+        with open(file_path, mode) as outfile:
+            outfile.write(response)
+        return open(file_path)
