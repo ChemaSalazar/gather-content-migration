@@ -70,22 +70,22 @@ class GatherContent(object):
 
 class cgAPI(GatherContent):
     def get_template_query(self):
-        return 'https://api.gathercontent.com/templates/' + str(self.template_id)
+        return config.gc_url+'templates/'+str(self.template_id)
 
     def get_items_query(self):
-        return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/items'
+        return config.gc_url+'projects/'+str(self.project_id)+'/items'
 
     def get_single_item_query(self, item_id):
-        return 'https://api.gathercontent.com/items/' + str(item_id)
+        return config.gc_url+'items/'+str(item_id)
 
     def get_files_query(self):
-        return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/files'
+        return config.gc_url+'projects/' + str(self.project_id)+'/files'
 
     def get_single_file_query(self, file_id):
-        return 'https://api.gathercontent.com/projects/' + str(self.project_id) + '/files/' + str(file_id)
+        return config.gc_url+'projects/' + str(self.project_id)+'/files/'+str(file_id)
 
     def get_folders_query(self):
-        return 'https://api.gathercontent.com/projects/'+str(self.project_id)+'/folders'
+        return config.gc_url+'projects/'+str(self.project_id)+'/folders'
 
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
