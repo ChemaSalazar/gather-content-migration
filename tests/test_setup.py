@@ -2,7 +2,8 @@ import unittest
 from includes import gc
 from includes import config
 from private import credentials
-import main
+# import main
+
 
 class MyTestCase(unittest.TestCase):
 
@@ -58,7 +59,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_components_query()), 200)
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_item_query(credentials.mock_item_id)), 200)
         self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_file_query(credentials.mock_file_id)), 200)
-        self.assertEqual(test_obj.api_get_status_res(test_obj.get_single_component_query(credentials.mock_component_id)), 200)
+        self.assertEqual(
+            test_obj.api_get_status_res(test_obj.get_single_component_query(credentials.mock_component_id)), 200)
 
         # Static Methods
         gc.is_field_type_text(config.field_type[0])

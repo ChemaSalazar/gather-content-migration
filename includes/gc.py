@@ -1,6 +1,7 @@
 from private import credentials
 from includes import config
 import requests
+import json
 
 
 # Gathercontent class & definitions
@@ -74,8 +75,8 @@ class cgAPI(GatherContent):
     def get_template_query(self):
         return config.gc_url + 'templates/' + str(self.template_id)
 
-    def get_items_query(self):
-        return config.gc_url + 'projects/' + str(self.project_id) + '/items'
+    def get_items_query(self, params=''):
+        return config.gc_url + 'projects/' + str(self.project_id) + '/items' + params
 
     def get_single_item_query(self, item_id):
         return config.gc_url + 'items/' + str(item_id)
@@ -100,11 +101,11 @@ class cgAPI(GatherContent):
     def api_get_template(self):
         return requests.get(self.get_template_query(), headers=self.header).text
 
-    def api_get_items(self):
-        return requests.get(self.get_items_query(), headers=self.header).text
+    def api_get_items(self, params=''):
+        return requests.get(self.get_items_query(params), headers=self.header)
 
     def api_get_single_item(self, item_id=credentials.mock_item_id):
-        return requests.get(self.get_single_item_query(item_id), headers=self.header).text
+        return requests.get(self.get_single_item_query(item_id), headers=self.header)
 
     def api_get_files(self):
         return requests.get(self.get_files_query(), headers=self.header).text
@@ -137,3 +138,59 @@ def is_field_type_choice_checkbox(field):
     if field == config.field_type[1]:
         return True
     return False
+
+
+def does_value_exist_in_list(custom_list, value):
+    exist_count = custom_list.count(value)
+    if exist_count > 0:
+        return True
+    else:
+        return False
+
+
+def does_value_exist_in_dict(dictionary, key, value):
+    if dictionary.get(key, value) == value:
+        return True
+    else:
+        return False
+
+
+# write to file
+def write_to_file(file_path, response, mode="w"):
+    if mode == "r+":
+        with open(file_path, "r+") as file:
+            file_data = json.load(file)
+            file_data["data"].append(response["data"])
+            file.seek(0)
+            json.dump(file_data, file, indent=4)
+    else:
+        with open(file_path, mode) as outfile:
+            outfile.write(response)
+        return open(file_path)
+
+
+def merge_item_data(structure_data, content, item_id=credentials.mock_item_id):
+    fields = structure_data['data'][0]['structure']['groups'][0]['fields']
+    raw_field_list = []
+    field_label_list = []
+    valuelist = []
+    tomasterdict = {}
+
+    # We iterate the number of fields within this item
+    for i in range(len(fields)):
+        raw_field_list.append(fields[i]['uuid'])
+        field_label_list.append(fields[i]['label'])
+
+    for i in range(len(content)):
+        # setting variable for field content:
+        current_field_content = content['content'][raw_field_list[i]]
+        current_field_content_raw = content['content'][raw_field_list[i]]
+
+        # print(field_label_list[i], " = ", content[raw_field_list[i]])
+        valuelist.append(current_field_content)
+        tomasterdict.update(dict(zip(field_label_list, valuelist)))
+
+    field_label_list.append('id')
+    valuelist.append(item_id)
+    tomasterdict.update(dict(zip(field_label_list, valuelist)))
+    return tomasterdict
