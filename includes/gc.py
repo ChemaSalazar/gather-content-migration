@@ -107,13 +107,13 @@ class cgAPI(GatherContent):
     def api_get_items(self, params=''):
         return requests.get(self.get_items_query(params), headers=self.header)
 
-    def api_get_single_item(self, item_id=os.environ["mock_item_id"]):
+    def api_get_single_item(self, item_id=os.environ.get("mock_item_id")):
         return requests.get(self.get_single_item_query(item_id), headers=self.header)
 
     def api_get_files(self):
         return requests.get(self.get_files_query(), headers=self.header).text
 
-    def api_get_single_file(self, file_id=os.environ["mock_file_id"]):
+    def api_get_single_file(self, file_id=os.environ.get("mock_file_id")):
         return requests.get(self.get_single_file_query(file_id), headers=self.header).text
 
     def api_get_folders(self):
@@ -122,7 +122,7 @@ class cgAPI(GatherContent):
     def api_get_components(self):
         return requests.get(self.get_components_query(), headers=self.header).text
 
-    def api_get_single_component(self, component_id=os.environ["mock_component_id"]):
+    def api_get_single_component(self, component_id=os.environ.get("mock_component_id")):
         return requests.get(self.get_single_component_query(component_id), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
@@ -172,7 +172,7 @@ def write_to_file(file_path, response, mode="w"):
         return open(file_path)
 
 
-def merge_item_data(structure_data, content, item_id=os.environ["mock_item_id"]):
+def merge_item_data(structure_data, content, item_id=os.environ.get("mock_item_id")):
     fields = structure_data['data'][0]['structure']['groups'][0]['fields']
     raw_field_list = []
     field_label_list = []
