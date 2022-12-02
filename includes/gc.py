@@ -184,7 +184,7 @@ def merge_item_data(structure_data, content, item_id=os.environ.get("mock_item_i
         raw_field_list.append(fields[i]['uuid'])
         field_label_list.append(fields[i]['label'])
 
-    for i in range(len(content)):
+    for i in range(len(content['content'])):
         # setting variable for field content:
         current_field_content = content['content'][raw_field_list[i]]
         current_field_content_raw = content['content'][raw_field_list[i]]
