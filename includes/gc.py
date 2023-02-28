@@ -1,7 +1,10 @@
-from private import credentials
+import os
+from dotenv import load_dotenv
 from includes import config
 import requests
 import json
+
+load_dotenv()
 
 
 # Gathercontent class & definitions
@@ -15,9 +18,9 @@ class GatherContent(object):
     template_id = 0
 
     def __init__(self):
-        self.set_email(credentials.MYEMAIL)
-        self.set_api_key(credentials.APIKEY)
-        self.set_authorization_token(credentials.authorization_token)
+        self.set_email(os.environ["MYEMAIL"])
+        self.set_api_key(os.environ["APIKEY"])
+        self.set_authorization_token(os.environ["authorization_token"])
         self.set_mime()
         self.set_project()
         self.set_template()
@@ -44,10 +47,10 @@ class GatherContent(object):
     def get_template(self):
         return self.template_id
 
-    def set_template(self, template=credentials.template_id):
+    def set_template(self, template=os.environ["template_id"]):
         self.template_id = template
 
-    def set_project(self, project=credentials.project_id):
+    def set_project(self, project=os.environ["project_id"]):
         self.project_id = project
 
     def set_api_key(self, api):
@@ -104,13 +107,13 @@ class cgAPI(GatherContent):
     def api_get_items(self, params=''):
         return requests.get(self.get_items_query(params), headers=self.header)
 
-    def api_get_single_item(self, item_id=credentials.mock_item_id):
+    def api_get_single_item(self, item_id=os.environ.get("mock_item_id")):
         return requests.get(self.get_single_item_query(item_id), headers=self.header)
 
     def api_get_files(self):
         return requests.get(self.get_files_query(), headers=self.header).text
 
-    def api_get_single_file(self, file_id=credentials.mock_file_id):
+    def api_get_single_file(self, file_id=os.environ.get("mock_file_id")):
         return requests.get(self.get_single_file_query(file_id), headers=self.header).text
 
     def api_get_folders(self):
@@ -119,7 +122,7 @@ class cgAPI(GatherContent):
     def api_get_components(self):
         return requests.get(self.get_components_query(), headers=self.header).text
 
-    def api_get_single_component(self, component_id=credentials.mock_component_id):
+    def api_get_single_component(self, component_id=os.environ.get("mock_component_id")):
         return requests.get(self.get_single_component_query(component_id), headers=self.header).text
 
     def api_get_status_res(self, desired_query):
@@ -169,7 +172,7 @@ def write_to_file(file_path, response, mode="w"):
         return open(file_path)
 
 
-def merge_item_data(structure_data, content, item_id=credentials.mock_item_id):
+def merge_item_data(structure_data, content, item_id=os.environ.get("mock_item_id")):
     fields = structure_data['data'][0]['structure']['groups'][0]['fields']
     raw_field_list = []
     field_label_list = []
@@ -181,7 +184,7 @@ def merge_item_data(structure_data, content, item_id=credentials.mock_item_id):
         raw_field_list.append(fields[i]['uuid'])
         field_label_list.append(fields[i]['label'])
 
-    for i in range(len(content)):
+    for i in range(len(content['content'])):
         # setting variable for field content:
         current_field_content = content['content'][raw_field_list[i]]
         current_field_content_raw = content['content'][raw_field_list[i]]
